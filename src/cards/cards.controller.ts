@@ -8,12 +8,17 @@ export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.cardsService.findAll();
   }
 
-  @Get(':title')
-  findOne(@Param('title') title: string) {
-    return this.cardsService.findOne(title);
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.cardsService.findOne(id);
+  }
+
+  @Post()
+  async create(@Body() createCardDto: CreateCardDto) {
+    return this.cardsService.create(createCardDto)
   }
 }

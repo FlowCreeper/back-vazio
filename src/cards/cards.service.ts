@@ -9,11 +9,16 @@ import { Model } from 'mongoose';
 export class CardsService {
   constructor(@InjectModel(Card.name) private cardModel: Model<Card>) {}
 
-  findAll(): Promise<Card[]> {
+  async findAll(): Promise<Card[]> {
     return this.cardModel.find().exec();
   }
 
-  findOne(title: string): Promise<Card> {
-    return (this.cardModel.find({title: title}).exec())[0];
+  async findOne(id: string): Promise<Card> {
+    return (await this.cardModel.find({ _id: id }).exec()).at(0);
+  }
+
+  async create(createCardDto: CreateCardDto): Promise<Card> {
+    const createdCard = new this.cardModel(createCardDto);
+    return createdCard.save();
   }
 }
